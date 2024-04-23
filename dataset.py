@@ -152,12 +152,14 @@ class CardiacArrhythmia(BaseDataset):
         xtrain = TrainData['data'].values.tolist()
         xtrain = np.array(xtrain)
         xtrain = torch.tensor(xtrain).float().unsqueeze(1)
+        xtrain = (xtrain - xtrain.mean()) / xtrain.std()
         ytrain_list = [tensor.numpy().tolist() for tensor in TrainData['label'].apply(self.y2tensor)]  # Convert series of tensors to list of lists
         ytrain = torch.tensor(ytrain_list)  # Convert list of lists to 2D tensor
         
         xval = ValData['data'].values.tolist()
         xval = np.array(xval)
         xval = torch.tensor(xval).float().unsqueeze(1)
+        xval = (xval - xval.mean()) / xval.std()
         yval_list = [tensor.numpy().tolist() for tensor in ValData['label'].apply(self.y2tensor)]
         yval = torch.tensor(yval_list)
 
